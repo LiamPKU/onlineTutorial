@@ -14,3 +14,5 @@ export const AUTH = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 
 export const FETCH_VIDEO = 'FETCH_VIDEO';
+export const FETCH_VIDEO_DETAIL = 'FETCH_VIDEO_DETAIL'
+export const COMMENT_VIDEO = 'COMMENT_VIDEO'

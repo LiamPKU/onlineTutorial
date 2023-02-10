@@ -1,13 +1,14 @@
 import * as fs from 'fs'
+import Video from '../models/video.js'
 export const getVideo = async (req,res) =>{
+    const {id} = req.params
     try {
-        console.log('running')
-        fs.readFile('./food.mp4',function(err,data){
+        const video = await Video.findById(id)
+        fs.readFile(video.path,function(err,data){
             if(err){
                 console.log(err.stack)
                 return
             }
-            console.log('sending')
             res.send(data)
             res.end()
         })
@@ -37,3 +38,23 @@ export const getVideo = async (req,res) =>{
         res.status(500).json({ message: "something went wrong" });
     }
 }
+
+export const getVideoDetail = async (req,res) =>{
+    const {id} = req.params
+    try {
+        const video = await Video.findById(id)
+        res.status(200).json(video)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "something went wrong" });
+    }
+}
+
+export const commentVideo = async (req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+    const video = await Video.findById(id);
+    video.comments.push(value);
+    const updatedVideo = await Video.findByIdAndUpdate(id, video, { new: true });
+    res.json(updatedVideo);
+};
